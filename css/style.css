@@ -25,7 +25,7 @@ body {
   width: 320px;
   padding-top: 100px;
   background-color: var(--calculator-bg-color);
-  border-radius: 10px;
+  border-radius: 39px;
   box-shadow: 0 0 20px var(--box-shadow-color);
   overflow: hidden;
 }

@@ -18,17 +18,23 @@ document.addEventListener("DOMContentLoaded", () => {
         previousInput = null;
         previousOperationDisplay.textContent = "";
       } else if (value === "+/-") {
-        currentInput = (parseFloat(currentInput) * -1).toString();
+        currentInput = (parseFloat(currentInput.replace(",", ".")) * -1)
+          .toString()
+          .replace(".", ",");
       } else if (value === "%") {
-        currentInput = (parseFloat(currentInput) / 100).toString();
+        currentInput = (parseFloat(currentInput.replace(",", ".")) / 100)
+          .toString()
+          .replace(".", ",");
       } else if (["+", "-", "×", "÷"].includes(value)) {
         if (operator && previousInput !== null) {
           if (currentInput !== "0") {
             currentInput = calculate(
-              parseFloat(previousInput),
-              parseFloat(currentInput),
+              parseFloat(previousInput.replace(",", ".")),
+              parseFloat(currentInput.replace(",", ".")),
               operator
-            ).toString();
+            )
+              .toString()
+              .replace(".", ",");
             previousOperationDisplay.textContent = `${previousInput} ${operator} ${currentInput}`;
           }
           operator = value;
@@ -43,12 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
           display.textContent = `${previousInput} ${operator}`;
         }
       } else if (value === "=") {
-        if (operator && previousInput !== null) {
+        if (operator && previousInput !== null && currentInput !== "0") {
           const result = calculate(
-            parseFloat(previousInput),
-            parseFloat(currentInput),
+            parseFloat(previousInput.replace(",", ".")),
+            parseFloat(currentInput.replace(",", ".")),
             operator
-          ).toString();
+          )
+            .toString()
+            .replace(".", ",");
           previousOperationDisplay.textContent = `${previousInput} ${operator} ${currentInput}`;
           currentInput = result;
           operator = null;
