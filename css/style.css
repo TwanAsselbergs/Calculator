@@ -1,3 +1,5 @@
+/* Root */
+
 :root {
   --background-color: #f5f5f5;
   --calculator-bg-color: #000;
@@ -6,10 +8,12 @@
   --button-bg-color: #5d5b61;
   --button-operator-bg-color: #ff9500;
   --button-operator-text-color: #fff;
-  --button-operator-bg-color-active: #ccc;
-  --box-shadow-color: rgba(0, 0, 0, 0.2);
   --button-number-bg-color: #2b2a2c;
+  --button-number-bg-color-hover: #656368;
+  --box-shadow-color: rgba(0, 0, 0, 0.2);
 }
+
+/* Body */
 
 body {
   display: flex;
@@ -20,6 +24,8 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Calculator */
 
 .calculator {
   width: 320px;
@@ -85,12 +91,36 @@ body {
   background-color: var(--button-number-bg-color);
 }
 
+.btn.number:hover {
+  background-color: var(--button-number-bg-color-hover);
+}
+
 .btn.operator {
   background-color: var(--button-operator-bg-color);
   color: var(--button-operator-text-color);
   font-size: 2em;
 }
 
-.btn:active {
-  background-color: var(--button-operator-bg-color-active);
+/* Keyframes */
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 }

@@ -1,3 +1,23 @@
+function addTransitionEffect(button) {
+  button.addEventListener("click", () => {
+    const previousOperation = document.querySelector(".previous-operation");
+
+    if (button.textContent === "=") {
+      previousOperation.style.animation = "none";
+      previousOperation.offsetHeight; // Trigger reflow
+      previousOperation.style.animation = "slideIn 0.4s ease-in-out";
+    } else if (button.textContent === "AC") {
+      previousOperation.style.animation = "none";
+      previousOperation.offsetHeight; // Trigger reflow
+      previousOperation.style.animation = "slideOut 0.4s ease-in-out";
+    }
+  });
+}
+
+document
+  .querySelectorAll(".btn.number, .btn.operator")
+  .forEach(addTransitionEffect);
+
 document.addEventListener("DOMContentLoaded", () => {
   const display = document.querySelector(".current-input");
   const previousOperationDisplay = document.querySelector(
@@ -13,10 +33,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const value = button.textContent;
 
       if (value === "AC") {
+        previousOperationDisplay.style.animation = "slideOut 0.4s ease-in-out";
+        setTimeout(() => {
+          previousOperationDisplay.textContent = "";
+        }, 300);
         currentInput = "0";
         operator = null;
         previousInput = null;
-        previousOperationDisplay.textContent = "";
+        display.textContent = currentInput;
       } else if (value === "+/-") {
         currentInput = (parseFloat(currentInput.replace(",", ".")) * -1)
           .toString()
