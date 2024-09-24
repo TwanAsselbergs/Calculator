@@ -1,0 +1,96 @@
+:root {
+  --background-color: #f5f5f5;
+  --calculator-bg-color: #000;
+  --display-bg-color: #000;
+  --display-text-color: #fff;
+  --button-bg-color: #5d5b61;
+  --button-operator-bg-color: #ff9500;
+  --button-operator-text-color: #fff;
+  --button-operator-bg-color-active: #ccc;
+  --box-shadow-color: rgba(0, 0, 0, 0.2);
+  --button-number-bg-color: #2b2a2c;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--background-color);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.calculator {
+  width: 320px;
+  padding-top: 100px;
+  background-color: var(--calculator-bg-color);
+  border-radius: 10px;
+  box-shadow: 0 0 20px var(--box-shadow-color);
+  overflow: hidden;
+}
+
+.display {
+  background-color: var(--display-bg-color);
+  color: var(--display-text-color);
+  text-align: right;
+  padding: 20px 25px 0px 0px;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  height: 75px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.previous-operation {
+  font-size: 0.6em;
+  color: #888;
+  position: absolute;
+  top: 0;
+  right: 25px;
+}
+
+.current-input {
+  font-size: 1.5em;
+  height: 50px;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7.5px;
+  padding: 25px;
+  padding-top: 5px;
+}
+
+.btn {
+  background-color: var(--button-bg-color);
+  color: var(--display-text-color);
+  border: none;
+  padding: 20px;
+  font-size: 1.7em;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 60px;
+}
+
+.btn.number {
+  background-color: var(--button-number-bg-color);
+}
+
+.btn.operator {
+  background-color: var(--button-operator-bg-color);
+  color: var(--button-operator-text-color);
+  font-size: 2em;
+}
+
+.btn:active {
+  background-color: var(--button-operator-bg-color-active);
+}
