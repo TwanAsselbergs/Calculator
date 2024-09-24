@@ -6,7 +6,9 @@
   --display-bg-color: #000;
   --display-text-color: #fff;
   --button-bg-color: #5d5b61;
+  --button-bg-color-hover: #66656a;
   --button-operator-bg-color: #ff9500;
+  --button-operator-bg-color-hover: #ffa82f;
   --button-operator-text-color: #fff;
   --button-number-bg-color: #2b2a2c;
   --button-number-bg-color-hover: #5d5b61;
@@ -87,6 +89,10 @@ body {
   width: 60px;
 }
 
+.btn:hover {
+  background-color: var(--button-bg-color-hover);
+}
+
 .btn.number {
   background-color: var(--button-number-bg-color);
 }
@@ -99,6 +105,10 @@ body {
   background-color: var(--button-operator-bg-color);
   color: var(--button-operator-text-color);
   font-size: 2em;
+}
+
+.btn.operator:hover {
+  background-color: var(--button-operator-bg-color-hover);
 }
 
 /* Keyframes */
