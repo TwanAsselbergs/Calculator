@@ -4,11 +4,11 @@ function addTransitionEffect(button) {
 
     if (button.textContent === "=") {
       previousOperation.style.animation = "none";
-      previousOperation.offsetHeight; // Trigger reflow
+      previousOperation.offsetHeight;
       previousOperation.style.animation = "slideIn 0.4s ease-in-out";
     } else if (button.textContent === "AC") {
       previousOperation.style.animation = "none";
-      previousOperation.offsetHeight; // Trigger reflow
+      previousOperation.offsetHeight;
       previousOperation.style.animation = "slideOut 0.4s ease-in-out";
     }
   });
