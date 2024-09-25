@@ -101,6 +101,13 @@ body {
   background-color: var(--button-number-bg-color-hover);
 }
 
+.btn.number.large {
+  grid-column: span 2;
+  border-radius: 30px;
+  width: calc(2 * 60px + 7.5px);
+  justify-content: flex-start;
+}
+
 .btn.operator {
   background-color: var(--button-operator-bg-color);
   color: var(--button-operator-text-color);

@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateDisplay();
       } else if (value === "=") {
         if (currentInput !== "") {
-          expression += currentInput.replace(".", ",");
+          expression += currentInput.replace(",", ".");
         }
 
         try {
@@ -93,11 +93,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         updateDisplay(true);
       } else {
-        if (currentInput === "0" || resultDisplayed) {
-          currentInput = value;
-          resultDisplayed = false;
+        if (value === ",") {
+          if (!currentInput.includes(",")) {
+            currentInput += value;
+          }
         } else {
-          currentInput += value;
+          if (currentInput === "0" || resultDisplayed) {
+            currentInput = value;
+            resultDisplayed = false;
+          } else {
+            currentInput += value;
+          }
         }
         operatorPressed = false;
         operatorAfterResult = false;
@@ -115,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isResult) {
       display.textContent = currentInput;
     } else {
-      display.textContent = expression + currentInput;
+      display.textContent = expression.replace(/\./g, ",") + currentInput;
     }
   }
 });
