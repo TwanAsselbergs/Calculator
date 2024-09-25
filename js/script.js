@@ -6,14 +6,6 @@ function addTransitionEffect(button) {
       previousOperation.style.animation = "none";
       previousOperation.offsetHeight;
       previousOperation.style.animation = "slideIn 0.4s ease-in-out";
-    } else if (button.textContent === "AC") {
-      previousOperation.style.animation = "none";
-      previousOperation.offsetHeight;
-      previousOperation.style.animation = "slideOut 0.4s ease-in-out";
-
-      setTimeout(() => {
-        previousOperation.textContent = "";
-      }, 300);
     }
   });
 }
