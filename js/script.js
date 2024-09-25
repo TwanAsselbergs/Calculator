@@ -10,6 +10,10 @@ function addTransitionEffect(button) {
       previousOperation.style.animation = "none";
       previousOperation.offsetHeight;
       previousOperation.style.animation = "slideOut 0.4s ease-in-out";
+
+      setTimeout(() => {
+        previousOperation.textContent = "";
+      }, 300);
     }
   });
 }
@@ -24,97 +28,102 @@ document.addEventListener("DOMContentLoaded", () => {
     ".previous-operation"
   );
   const buttons = document.querySelectorAll(".btn");
+
+  let expression = "";
   let currentInput = "0";
-  let operator = null;
-  let previousInput = null;
+  let resultDisplayed = false;
+  let operatorPressed = false;
+  let operatorAfterResult = false;
 
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       const value = button.textContent;
 
       if (value === "AC") {
+        expression = "";
+        currentInput = "0";
+        display.textContent = currentInput;
         previousOperationDisplay.style.animation = "slideOut 0.4s ease-in-out";
+
         setTimeout(() => {
           previousOperationDisplay.textContent = "";
         }, 300);
-        currentInput = "0";
-        operator = null;
-        previousInput = null;
-        display.textContent = currentInput;
+
+        resultDisplayed = false;
+        operatorPressed = false;
+        operatorAfterResult = false;
       } else if (value === "+/-") {
         currentInput = (parseFloat(currentInput.replace(",", ".")) * -1)
           .toString()
           .replace(".", ",");
+        updateDisplay();
       } else if (value === "%") {
         currentInput = (parseFloat(currentInput.replace(",", ".")) / 100)
           .toString()
           .replace(".", ",");
+        updateDisplay();
       } else if (["+", "-", "×", "÷"].includes(value)) {
-        if (operator && previousInput !== null) {
-          if (currentInput !== "0") {
-            currentInput = calculate(
-              parseFloat(previousInput.replace(",", ".")),
-              parseFloat(currentInput.replace(",", ".")),
-              operator
-            )
-              .toString()
-              .replace(".", ",");
-            previousOperationDisplay.textContent = `${previousInput} ${operator} ${currentInput}`;
-          }
-          operator = value;
-          display.textContent = `${previousInput} ${operator}`;
-        } else if (!operator) {
-          operator = value;
-          previousInput = currentInput;
-          display.textContent = `${previousInput} ${operator}`;
-          currentInput = "0";
+        if (resultDisplayed) {
+          expression = currentInput.replace(",", ".") + " " + value + " ";
+          resultDisplayed = false;
+          operatorAfterResult = true;
         } else {
-          operator = value;
-          display.textContent = `${previousInput} ${operator}`;
+          if (operatorPressed || operatorAfterResult) {
+            expression = expression.slice(0, -3) + " " + value + " ";
+          } else {
+            expression += currentInput.replace(",", ".") + " " + value + " ";
+            operatorPressed = true;
+          }
         }
+
+        currentInput = "";
+        updateDisplay();
       } else if (value === "=") {
-        if (operator && previousInput !== null && currentInput !== "0") {
-          const result = calculate(
-            parseFloat(previousInput.replace(",", ".")),
-            parseFloat(currentInput.replace(",", ".")),
-            operator
-          )
-            .toString()
-            .replace(".", ",");
-          previousOperationDisplay.textContent = `${previousInput} ${operator} ${currentInput}`;
-          currentInput = result;
-          operator = null;
-          previousInput = null;
+        if (currentInput !== "") {
+          expression += currentInput.replace(".", ",");
         }
+
+        try {
+          const result = evaluateExpression(expression);
+          previousOperationDisplay.textContent = expression.replace(/\./g, ",");
+          previousOperationDisplay.style.animation = "none";
+          previousOperationDisplay.offsetHeight;
+          previousOperationDisplay.style.animation = "slideIn 0.4s ease-in-out";
+
+          currentInput = result.toString().replace(".", ",");
+          expression = "";
+          resultDisplayed = true;
+          operatorPressed = false;
+          operatorAfterResult = false;
+        } catch (e) {
+          currentInput = "Error";
+          resultDisplayed = true;
+        }
+        updateDisplay(true);
       } else {
-        if (currentInput === "0") {
+        if (currentInput === "0" || resultDisplayed) {
           currentInput = value;
+          resultDisplayed = false;
         } else {
           currentInput += value;
         }
-        display.textContent = operator
-          ? `${previousInput} ${operator} ${currentInput}`
-          : currentInput;
-      }
-
-      if (!operator) {
-        display.textContent = currentInput;
+        operatorPressed = false;
+        operatorAfterResult = false;
+        updateDisplay();
       }
     });
   });
 
-  function calculate(a, b, operator) {
-    switch (operator) {
-      case "+":
-        return a + b;
-      case "-":
-        return a - b;
-      case "×":
-        return a * b;
-      case "÷":
-        return a / b;
-      default:
-        return b;
+  function evaluateExpression(expr) {
+    const safeExpr = expr.replace(/×/g, "*").replace(/÷/g, "/");
+    return new Function("return " + safeExpr)();
+  }
+
+  function updateDisplay(isResult = false) {
+    if (isResult) {
+      display.textContent = currentInput;
+    } else {
+      display.textContent = expression + currentInput;
     }
   }
 });
